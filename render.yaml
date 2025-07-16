@@ -5,7 +5,7 @@ services:
     region: singapore
     plan: free
     buildCommand: npm install # or yarn install
-    startCommand: node src/server.js # Make sure this path is correct for your main server file
+    startCommand: node server.js # Make sure this path is correct for your main server file
     healthCheckPath: /health # Ensure you have a /health endpoint in your API
     envVars:
       - key: MONGODB_URI

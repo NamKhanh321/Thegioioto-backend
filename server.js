@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
   res.send('Hello from your Express API!');
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK'); // Or res.status(200).json({ status: 'OK' });
+});
+
 // Use cookie-parser middleware before your routes if you need to parse cookies
 app.use(cookieParser());
 

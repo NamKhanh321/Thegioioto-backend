@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: Thegioioto
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install # or yarn install
+    startCommand: node src/server.js # Make sure this path is correct for your main server file
+    healthCheckPath: /health # Ensure you have a /health endpoint in your API
+    envVars:
+      - key: MONGODB_URI
+        sync: false # This is crucial! You'll set the actual connection string in the Render dashboard.
+      - key: JWT_SECRET
+        sync: false # This is also crucial! You'll set your secret in the Render dashboard.
+      # You might also want to add a PORT env var if your app doesn't listen on process.env.PORT by default
+      - key: JWT_EXPIRES_IN
+        sync: false
+      - key: PORT
+        value: 5000 # Render typically sets this, but explicitly defining it can be good for clarity
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_APP
+        sync: false

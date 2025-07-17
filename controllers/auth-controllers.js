@@ -57,10 +57,11 @@ export const registerUser = asyncWrapper(async(req, res, next) => {
 })
 
 export const getUserInfo = asyncWrapper(async(req, res, next) => {
-    const {id} = req.user;
-    if(!id)
+    const {userId, role} = req.user;
+    if(!userId)
         return res.status(400).json({msg: "Không tìm thấy id người dùng"});
-    const user = User.findOne({_id: id}).select('-password');
+    const user = await User.findOne({_id: userId}).select('-password');
+    console.log(user);
     if(user)
         return res.status(200).json({id: user._id, username: user.username, name: user.name, role: user.role});
     return res.status(404).json({msg: "Không tìm thấy người dùng này"});

@@ -2,8 +2,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from './db/connect.js';
+// router
 import userRouter from "./routes/users.js";
 import authRouter from './routes/auth.js';
+// middleware
+import { notFound } from "./middlewares/not-found.js";
+import { errorHandlerMiddleware } from "./middlewares/error-handler.js";
 
 import cors from 'cors'; // npm install cors
 import cookieParser from 'cookie-parser'; // npm install cookie-parser
@@ -17,11 +21,12 @@ const port = process.env.PORT || 3000;
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
-// Basic route
+// Route cơ bản
 app.get('/', (req, res) => {
   res.send('Hello from your Express API!');
 });
 
+// health route (để deploy trên render)
 app.get('/health', (req, res) => {
   res.status(200).send('OK'); // Or res.status(200).json({ status: 'OK' });
 });
@@ -37,20 +42,15 @@ app.use(cors({
 }));
 
 
-// Example API route
-app.use("/api/users", userRouter);
+// Routes
+app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 // Basic 404 handler
-app.use((req, res, next) => {
-  res.status(404).send("Sorry can't find that!");
-});
+app.use(notFound);
 
-// Basic error handler (must have 4 arguments)
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
+// error handler
+app.use(errorHandlerMiddleware);
 
 const startServer = async () => {
   try {

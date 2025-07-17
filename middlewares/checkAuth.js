@@ -1,16 +1,19 @@
 import jwt from 'jsonwebtoken';
+import { UnauthenticatedError } from '../errors/index.js';
 
 export const checkAuth = async(req, res, next) => {
     const token = req.cookies.access_token;
     if(!token)
-        return res.status(401).json({msg: "Không tìm thấy access token!"});
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if(err)
-            return res.status(403).json({msg: "Token không hợp lệ"});
-        req.user = {
-            userId: user.userId,
-            role: user.role,
+        {
+            throw new UnauthenticatedError('Không tìm thấy token');
         }
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const {userId, role} = decoded;
+        req.user = {userId, role};
         next();
-    })
+    }
+    catch(err) {
+        throw new UnauthenticatedError('Token không hợp lệ');
+    }
 };

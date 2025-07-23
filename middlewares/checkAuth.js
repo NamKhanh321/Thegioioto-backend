@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { UnauthenticatedError } from '../errors/index.js';
+import asyncWrapper from './asyncWrapper.js';
 
-export const checkAuth = async(req, res, next) => {
+export const checkAuth = asyncWrapper(async(req, res, next) => {
     const token = req.cookies.access_token;
     if(!token)
         {
@@ -16,4 +17,18 @@ export const checkAuth = async(req, res, next) => {
     catch(err) {
         throw new UnauthenticatedError('Token không hợp lệ');
     }
-};
+});
+
+export const checkAdmin = asyncWrapper(async(req,res,next) => {
+    const {role} = req.user;
+    if(role !== 'admin')
+        throw new UnauthenticatedError('Bạn không có quyền truy cập route này!');
+    next();
+})
+
+export const checkStaff = asyncWrapper(async(req,res,next) => {
+    const {role} = req.user;
+    if(role !== 'staff' && role !== 'admin')
+        throw new UnauthenticatedError('Bạn không có quyền truy cập route này!');
+    next();
+})

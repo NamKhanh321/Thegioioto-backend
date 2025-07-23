@@ -1,6 +1,6 @@
 import User from '../models/user-models.js';
 import asyncWrapper from '../middlewares/asyncWrapper.js';
-import { BadRequestError, UnauthenticatedError, NotFoundError} from '../errors/index.js';
+import { BadRequestError, NotFoundError} from '../errors/index.js';
 import { StatusCodes } from 'http-status-codes';
 
 export const getAllUsers = asyncWrapper(async (req,res,next) => {

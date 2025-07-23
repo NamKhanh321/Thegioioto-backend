@@ -5,6 +5,10 @@ import connectDB from './db/connect.js';
 // router
 import userRouter from "./routes/users.js";
 import authRouter from './routes/auth.js';
+import providerRouter from './routes/providers.js';
+import productRouter from './routes/products.js';
+import productTypeRouter from './routes/productType.js';
+
 // middleware
 import { notFound } from "./middlewares/not-found.js";
 import { errorHandlerMiddleware } from "./middlewares/error-handler.js";
@@ -45,6 +49,9 @@ app.use(cors({
 // Routes
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/providers', providerRouter);
+app.use('/api/products', productRouter);
+app.use('/api/productType', productTypeRouter);
 
 // Basic 404 handler
 app.use(notFound);

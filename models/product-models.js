@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {BadRequestError} from '../errors/index.js';
 
 const productSchema = mongoose.Schema({
     productName: {

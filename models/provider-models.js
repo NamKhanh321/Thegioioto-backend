@@ -10,6 +10,7 @@ const providerSchema = mongoose.Schema({
         maxLength: [10, 'Số điện thoại phải gồm 10 số'],
         minLength: [10, 'Số điện thoại phải gồm 10 số'],
         required: [true, 'Phải có số điện thoại'],
+        match: [/^\d{10}$/, 'Số điện thoại chỉ được chứa số và phải đủ 10 chữ số'],
     },
     address: {
         type: String,

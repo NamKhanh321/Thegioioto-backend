@@ -3,13 +3,13 @@ import asyncWrapper from '../middlewares/asyncWrapper.js';
 import { BadRequestError, UnauthenticatedError, NotFoundError} from '../errors/index.js';
 import { StatusCodes } from 'http-status-codes';
 
-const cookieOptions = {
-    httpOnly: true,
-    path: '/',
-    maxAge: 3600000, // Only for setting, not for clearing
-    secure: process.env.NODE_ENV === 'production', // true for production (HTTPS), false for local dev (HTTP)
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'None' requires secure: true
-};
+// const cookieOptions = {
+//     httpOnly: true,
+//     path: '/',
+//     maxAge: 3600000, // Only for setting, not for clearing
+//     secure: process.env.NODE_ENV === 'production', // true for production (HTTPS), false for local dev (HTTP)
+//     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'None' requires secure: true
+// };
 
 export const loginUser = asyncWrapper(async(req, res, next) => {
     const {username, password} = req.body;
@@ -22,8 +22,8 @@ export const loginUser = asyncWrapper(async(req, res, next) => {
     if(!isMatched)
         throw new UnauthenticatedError('Tài khoản hoặc mật khẩu không chính xác');
     const token = user.createJWT();
-    await res.cookie('access_token', token, {...cookieOptions});
-    return res.status(StatusCodes.OK).json({id: user._id, username, name: user.name, role: user.role});
+    // await res.cookie('access_token', token, {...cookieOptions});
+    return res.status(StatusCodes.OK).json({id: user._id, username, name: user.name, role: user.role, accessToken: token});
 })
 
 export const logoutUser = asyncWrapper(async (req, res) => {

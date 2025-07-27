@@ -3,7 +3,9 @@ import { UnauthenticatedError } from '../errors/index.js';
 import asyncWrapper from './asyncWrapper.js';
 
 export const checkAuth = asyncWrapper(async(req, res, next) => {
-    const token = req.cookies.access_token;
+    // const token = req.cookies.access_token;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader.startsWith('Bearer ') && authHeader.split(' ')[1];
     if(!token)
         {
             throw new UnauthenticatedError('Không tìm thấy token');

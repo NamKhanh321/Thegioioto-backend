@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
 
-// import dotenv from 'dotenv';
-// dotenv.config({quiet: true});
-
 const productTypeSchema = mongoose.Schema({
     productTypeName: {
         type: String,

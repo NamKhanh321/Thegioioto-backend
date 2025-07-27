@@ -8,6 +8,8 @@ import authRouter from './routes/auth.js';
 import providerRouter from './routes/providers.js';
 import productRouter from './routes/products.js';
 import productTypeRouter from './routes/productType.js';
+import storageRouter from './routes/storages.js';
+import importRouter from './routes/imports.js';
 
 // middleware
 import { notFound } from "./middlewares/not-found.js";
@@ -52,6 +54,8 @@ app.use('/api/auth', authRouter);
 app.use('/api/providers', providerRouter);
 app.use('/api/products', productRouter);
 app.use('/api/productType', productTypeRouter);
+app.use('/api/storages',storageRouter);
+app.use('/api/imports', importRouter);
 
 // Basic 404 handler
 app.use(notFound);
